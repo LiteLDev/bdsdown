@@ -9,10 +9,11 @@ import (
 )
 
 const (
-	ColorRed    = "\033[31m"
-	ColorGreen  = "\033[32m"
-	ColorYellow = "\033[33m"
-	ColorBlue   = "\033[34m"
+	ColorRed    = "\033[91m"
+	ColorGreen  = "\033[92m"
+	ColorYellow = "\033[93m"
+	ColorBlue   = "\033[94m"
+	ColorReset  = "\033[0m"
 )
 
 func main() {
@@ -21,15 +22,6 @@ func main() {
 	fmt.Println("Before using this software, please read: ")
 	fmt.Println("- Minecraft End User License Agreement   https://minecraft.net/terms")
 	fmt.Println("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
-
-	fmt.Print("Please enter y if you agree with the above terms: ")
-	var agree string
-	fmt.Scanln(&agree)
-	if agree != "y" {
-		fmt.Println("You must agree with the above terms to use this software.")
-		return
-	}
-	fmt.Println("=====================================================")
 
 	usePreview := false
 	flagSet := flag.NewFlagSet("bdsdownloader", flag.ExitOnError)
@@ -40,23 +32,32 @@ func main() {
 		flagSet.PrintDefaults()
 	}
 	flagSet.Parse(os.Args[1:])
-	if usePreview {
-		fmt.Println(ColorYellow + "Using preview version.")
-	}
 	if flagSet.NArg() > 1 {
-		fmt.Println(ColorRed + "ERROR: Too many arguments.")
+		fmt.Println(ColorRed + "ERROR: Too many arguments." + ColorReset)
 		flagSet.Usage()
 		return
 	}
+
+	fmt.Print("Please enter y if you agree with the above terms: ")
+	var agree string
+	fmt.Scanln(&agree)
+	if agree != "y" {
+		fmt.Println(ColorYellow + "You must agree with the above terms to use this software." + ColorReset)
+		return
+	}
+	fmt.Println("=====================================================")
+
+	if usePreview {
+		fmt.Println(ColorYellow + "Using preview version." + ColorReset)
+	}
 	if flagSet.NArg() == 1 {
 		ver := flagSet.Arg(0)
-		fmt.Println("Downloading BDS v", ver)
-		err := utils.DownloadVersion(ver, usePreview)
+		err := utils.Install(ver, usePreview)
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR: ", err)
+			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 			return
 		}
-		fmt.Println(ColorGreen + "Download complete.")
+		fmt.Println(ColorGreen + "Install complete." + ColorReset)
 		return
 	} else {
 		var ver string
@@ -68,16 +69,15 @@ func main() {
 			ver, err = utils.GetLatestReleaseVersion()
 		}
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR: ", err)
+			fmt.Println(ColorRed+"ERROR:", err)
 			return
 		}
-		fmt.Println("Downloading BDS v", ver)
-		err = utils.DownloadVersion(ver, usePreview)
+		fmt.Println("Latest version: " + ColorBlue + ver + ColorReset)
+		err = utils.Install(ver, usePreview)
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR: ", err)
-			return
+			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 		}
-		fmt.Println(ColorGreen + "Download complete.")
+		fmt.Println(ColorGreen + "Install complete." + ColorReset)
 		return
 	}
 }

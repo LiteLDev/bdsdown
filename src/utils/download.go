@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"os"
@@ -22,6 +23,10 @@ func DownloadFile(uri string, bar *progressbar.ProgressBar) (string, error) {
 	}
 
 	defer res.Body.Close()
+
+	if res.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("failed to download file %s (%s)", uri, res.Status)
+	}
 
 	fileName := path.Base(res.Request.URL.Path)
 
@@ -47,12 +52,12 @@ func DownloadFile(uri string, bar *progressbar.ProgressBar) (string, error) {
 }
 
 // DownloadVersion downloads the given version of BDS.
-func DownloadVersion(version string, isPreview bool) error {
+func DownloadVersion(version string, isPreview bool) (string, error) {
 	bar := progressbar.NewOptions(
-		-1,
+		114514,
 		progressbar.OptionShowBytes(true),
 		progressbar.OptionSetWidth(30),
-		progressbar.OptionSetDescription("  "),
+		progressbar.OptionSetDescription(" Downloading..."),
 		progressbar.OptionClearOnFinish(),
 		progressbar.OptionSetTheme(progressbar.Theme{
 			Saucer:        "=",
@@ -68,6 +73,5 @@ func DownloadVersion(version string, isPreview bool) error {
 	} else {
 		uri = ReleaseDownloadPrefix + version + ReleaseDownloadSuffix
 	}
-	_, err := DownloadFile(uri, bar)
-	return err
+	return DownloadFile(uri, bar)
 }
