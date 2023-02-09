@@ -24,10 +24,10 @@ func main() {
 	fmt.Println("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
 
 	usePreview := false
-	flagSet := flag.NewFlagSet("bdsdownloader", flag.ExitOnError)
+	flagSet := flag.NewFlagSet("bdsdown", flag.ExitOnError)
 	flagSet.BoolVar(&usePreview, "preview", false, "Use preview version")
 	flagSet.Usage = func() {
-		fmt.Println("Usage: bdsdownloader [options] [version]")
+		fmt.Println("Usage: bdsdown [options] [version]")
 		fmt.Println("Options:")
 		flagSet.PrintDefaults()
 	}

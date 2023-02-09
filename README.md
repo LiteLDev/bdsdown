@@ -3,7 +3,7 @@ Downloader for Minecraft BDS
 
 ## Usage
 ```
-Usage: bdsdownloader [options] [version]
+Usage: bdsdown [options] [version]
 Options:
   -preview
         Use preview version
