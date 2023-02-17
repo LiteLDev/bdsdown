@@ -24,8 +24,10 @@ func main() {
 	fmt.Println("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
 
 	usePreview := false
+	skipAgree := false
 	flagSet := flag.NewFlagSet("bdsdown", flag.ExitOnError)
 	flagSet.BoolVar(&usePreview, "preview", false, "Use preview version")
+	flagSet.BoolVar(&skipAgree, "y", false, "Skip the agreement")
 	flagSet.Usage = func() {
 		fmt.Println("Usage: bdsdown [options] [version]")
 		fmt.Println("Options:")
@@ -40,7 +42,12 @@ func main() {
 
 	fmt.Print("Please enter y if you agree with the above terms: ")
 	var agree string
-	fmt.Scanln(&agree)
+	if skipAgree {
+		agree = "y"
+		fmt.Println(agree)
+	} else {
+		fmt.Scanln(&agree)
+	}
 	if agree != "y" {
 		fmt.Println(ColorYellow + "You must agree with the above terms to use this software." + ColorReset)
 		return
