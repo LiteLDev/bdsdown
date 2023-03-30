@@ -18,3 +18,14 @@ Arguments:
   -v  --version  The version of BDS to install. If not specified, the latest
                  release(preview if -p specified) version will be used.
 ```
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Acknowledgements
+
+### Third-party libraries used
+
+- [akamensky/argparse](https://github.com/akamensky/argparse) - MIT License
+- [schollz/progressbar](https://github.com/schollz/progressbar) - MIT License
