@@ -1,10 +1,10 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"os"
 
+	"github.com/akamensky/argparse"
 	"github.com/jasonzyt/bdsdownloader/utils"
 )
 
@@ -19,27 +19,28 @@ const (
 func main() {
 	fmt.Println(" BDS Downloader | Distributed under the MIT License. ")
 	fmt.Println("=====================================================")
+
+	parser := argparse.NewParser("bdsdown", "Download and install BDS.")
+	usePreviewPtr := parser.Flag("p", "preview", &argparse.Options{Required: false, Help: "Use preview version"})
+	skipAgreePtr := parser.Flag("y", "yes", &argparse.Options{Required: false, Help: "Skip the agreement"})
+	excludedFilesPtr := parser.StringList("e", "exclude", &argparse.Options{Required: false, Help: "Exclude existing files from the installation", Default: []string{"server.properties", "allowlist.json", "permissions.json"}})
+	targetVersionPtr := parser.String("v", "version", &argparse.Options{Required: false, Help: "The version of BDS to install. If not specified, the latest release(preview if -p specified) version will be used."})
+	parser.Parse(os.Args)
+
+	usePreview := *usePreviewPtr
+	skipAgree := *skipAgreePtr
+	excludedFiles := make([]string, 0)
+	targetVersion := *targetVersionPtr
+
+	for _, file := range *excludedFilesPtr {
+		if _, err := os.Stat(file); err == nil {
+			excludedFiles = append(excludedFiles, file)
+		}
+	}
+
 	fmt.Println("Before using this software, please read: ")
 	fmt.Println("- Minecraft End User License Agreement   https://minecraft.net/terms")
 	fmt.Println("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
-
-	usePreview := false
-	skipAgree := false
-	flagSet := flag.NewFlagSet("bdsdown", flag.ExitOnError)
-	flagSet.BoolVar(&usePreview, "preview", false, "Use preview version")
-	flagSet.BoolVar(&skipAgree, "y", false, "Skip the agreement")
-	flagSet.Usage = func() {
-		fmt.Println("Usage: bdsdown [options] [version]")
-		fmt.Println("Options:")
-		flagSet.PrintDefaults()
-	}
-	flagSet.Parse(os.Args[1:])
-	if flagSet.NArg() > 1 {
-		fmt.Println(ColorRed + "ERROR: Too many arguments." + ColorReset)
-		flagSet.Usage()
-		return
-	}
-
 	fmt.Print("Please enter y if you agree with the above terms: ")
 	var agree string
 	if skipAgree {
@@ -54,12 +55,15 @@ func main() {
 	}
 	fmt.Println("=====================================================")
 
+	if len(excludedFiles) > 0 {
+		fmt.Println("The following files will be excluded from installation: ", excludedFiles)
+	}
+
 	if usePreview {
 		fmt.Println(ColorYellow + "Using preview version." + ColorReset)
 	}
-	if flagSet.NArg() == 1 {
-		ver := flagSet.Arg(0)
-		err := utils.Install(ver, usePreview)
+	if targetVersion != "" {
+		err := utils.Install(targetVersion, usePreview, excludedFiles)
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 			return
@@ -80,7 +84,7 @@ func main() {
 			return
 		}
 		fmt.Println("Latest version: " + ColorBlue + ver + ColorReset)
-		err = utils.Install(ver, usePreview)
+		err = utils.Install(ver, usePreview, excludedFiles)
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 		}
