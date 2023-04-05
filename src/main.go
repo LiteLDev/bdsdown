@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/akamensky/argparse"
 	"github.com/jasonzyt/bdsdownloader/utils"
@@ -31,6 +32,14 @@ func main() {
 	skipAgree := *skipAgreePtr
 	excludedFiles := make([]string, 0)
 	targetVersion := *targetVersionPtr
+	if targetVersion == "" {
+		for i := 0; i < len(os.Args); i++ {
+			if strings.Contains(os.Args[i], "\\") || strings.Contains(os.Args[i], "/") || strings.Contains(os.Args[i], "-") {
+				continue
+			}
+			targetVersion = os.Args[i]
+		}
+	}
 
 	for _, file := range *excludedFilesPtr {
 		if _, err := os.Stat(file); err == nil {
