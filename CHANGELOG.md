@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2023-04-05
+### Added
+- Add classical command parameter support
+
 ## [0.3.0] - 2023-03-30
 ### Added
 - `-e` or `--exclude` option to exclude existing files from the installation and default value is `[server.properties allowlist.json permissions.json]` (#1)
@@ -25,7 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic functionality
 
 
-[unreleased]: https://github.com/Jasonzyt/BDSDownloader/compare/v0.3.0...HEAD
-[0.3.0]: https://github.com/Jasonzyt/BDSDownloader/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/Jasonzyt/BDSDownloader/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/Jasonzyt/BDSDownloader/releases/tag/v0.1.0
+[unreleased]: https://github.com/LiteLDev/BDSDownloader/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/LiteLDev/BDSDownloader/compare/v0.3.0...v0.3.1
+[0.3.0]: https://github.com/LiteLDev/BDSDownloader/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/LiteLDev/BDSDownloader/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/LiteLDev/BDSDownloader/releases/tag/v0.1.0
