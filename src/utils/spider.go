@@ -46,13 +46,13 @@ func fetchDownloadPage() (string, error) {
 	var sb strings.Builder
 	for {
 		n, err := res.Body.Read(buf)
+		sb.Write(buf[:n])
 		if err != nil {
 			if err == io.EOF {
 				break
 			}
 			return "", err
 		}
-		sb.Write(buf[:n])
 	}
 
 	return sb.String(), nil
