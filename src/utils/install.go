@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 
 	"github.com/schollz/progressbar/v3"
 )
@@ -63,19 +64,47 @@ func Unzip(zipFile *os.File, bar *progressbar.ProgressBar) error {
 	return nil
 }
 
+func CheckCache(version string, cacheDir string) (string, error) {
+	target := path.Join(cacheDir, "bedrock-server-"+version+".zip")
+	_, err := os.Stat(target)
+	if err == nil {
+		return target, nil
+	}
+	return "", err
+}
+
 // Install installs the given version of BDS.
 func Install() error {
 	version := GetConfig().TargetVersion
 	usePreview := GetConfig().UsePreview
+	useCache := GetConfig().UseCache
+	cacheDir := GetConfig().CacheDir
+
+	var path string
+	var err error
+
+	if useCache {
+		fmt.Println("Checking cache...")
+		path, err = CheckCache(version, cacheDir)
+		if err == nil {
+			fmt.Println(" Found cache!")
+			fmt.Println("Unziping cached files...")
+			goto Unzip
+		} else {
+			fmt.Println(" Cache not found.")
+		}
+	}
 
 	fmt.Println("Downloading BDS v" + version + "...")
-	path, err := DownloadVersion(version, usePreview)
+	path, err = DownloadVersion(version, usePreview)
 	if err != nil {
 		return err
 	}
 	fmt.Println(" Download complete!")
 
 	fmt.Println("Unziping downloaded files...")
+
+Unzip:
 	file, err := os.OpenFile(path, os.O_RDONLY, 0)
 	if err != nil {
 		return err
@@ -99,10 +128,12 @@ func Install() error {
 	fmt.Println(" Unzip complete!")
 
 	file.Close()
-	fmt.Println("Cleaning up...")
-	err = os.Remove(path)
-	if err != nil {
-		return err
+	if !useCache {
+		fmt.Println("Cleaning up...")
+		err = os.Remove(path)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil

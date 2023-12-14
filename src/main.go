@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/user"
+	"path"
 	"strings"
 
 	"github.com/akamensky/argparse"
@@ -17,9 +19,14 @@ const (
 	ColorReset  = "\033[0m"
 )
 
-const (
-	DefaultCacheDir = "~/.cache/bdsdownloader"
-)
+func getDefaultCacheDir() string {
+	currentUser, err := user.Current()
+	if err != nil {
+		return "./.cache/bdsdownloader"
+	}
+
+	return path.Join(currentUser.HomeDir, ".cache", "bdsdownloader")
+}
 
 func main() {
 	fmt.Println(" BDS Downloader | Distributed under the MIT License. ")
@@ -28,9 +35,9 @@ func main() {
 	parser := argparse.NewParser("bdsdown", "Download and install BDS.")
 	usePreviewPtr := parser.Flag("p", "preview", &argparse.Options{Required: false, Help: "Use preview version"})
 	skipAgreePtr := parser.Flag("y", "yes", &argparse.Options{Required: false, Help: "Skip the agreement"})
-	clearCachePtr := parser.Flag("cc", "clear-cache", &argparse.Options{Required: false, Help: "Clear the cache directory and exit"})
-	noCachePtr := parser.Flag("nc", "no-cache", &argparse.Options{Required: false, Help: "Clear the default cache directory and exit"})
-	cacheDirPtr := parser.String("cd", "cache-dir", &argparse.Options{Required: false, Help: "The directory to store downloaded files", Default: DefaultCacheDir})
+	clearCachePtr := parser.Flag("", "clear-cache", &argparse.Options{Required: false, Help: "Clear the cache directory and exit"})
+	noCachePtr := parser.Flag("", "no-cache", &argparse.Options{Required: false, Help: "Clear the default cache directory and exit"})
+	cacheDirPtr := parser.String("", "cache-dir", &argparse.Options{Required: false, Help: "The directory to store downloaded files", Default: getDefaultCacheDir()})
 	excludedFilesPtr := parser.StringList("e", "exclude", &argparse.Options{Required: false, Help: "Exclude existing files from the installation", Default: []string{"server.properties", "allowlist.json", "permissions.json"}})
 	targetVersionPtr := parser.String("v", "version", &argparse.Options{Required: false, Help: "The version of BDS to install. If not specified, the latest release(preview if -p specified) version will be used."})
 	parser.Parse(os.Args)
@@ -62,7 +69,7 @@ func main() {
 		UsePreview:    usePreview,
 		SkipAgree:     skipAgree,
 		ClearCache:    clearCache,
-		UseCache:      !useCache,
+		UseCache:      useCache,
 		CacheDir:      cacheDir,
 		ExcludedFiles: excludedFiles,
 		TargetVersion: targetVersion,
@@ -102,6 +109,7 @@ func main() {
 	if usePreview {
 		fmt.Println(ColorYellow + "Using preview version." + ColorReset)
 	}
+
 	if targetVersion != "" {
 		err := utils.Install()
 		if err != nil {
@@ -109,7 +117,6 @@ func main() {
 			return
 		}
 		fmt.Println(ColorGreen + "Install complete." + ColorReset)
-		return
 	} else {
 		var version string
 		var err error
@@ -125,11 +132,11 @@ func main() {
 		}
 		fmt.Println("Latest version: " + ColorBlue + version + ColorReset)
 		utils.SetTargetVersion(version)
+
 		err = utils.Install()
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 		}
 		fmt.Println(ColorGreen + "Install complete." + ColorReset)
-		return
 	}
 }

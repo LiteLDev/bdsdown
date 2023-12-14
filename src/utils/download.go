@@ -30,6 +30,18 @@ func DownloadFile(uri string, bar *progressbar.ProgressBar) (string, error) {
 
 	fileName := path.Base(res.Request.URL.Path)
 
+	useCache := GetConfig().UseCache
+	if useCache {
+		cacheDir := GetConfig().CacheDir
+		if _, err := os.Stat(cacheDir); os.IsNotExist(err) {
+			err = os.MkdirAll(cacheDir, 0755)
+			if err != nil {
+				return "", err
+			}
+		}
+		fileName = path.Join(cacheDir, fileName)
+	}
+
 	file, err := os.Create(fileName)
 	if err != nil {
 		return "", err
