@@ -17,6 +17,10 @@ const (
 	ColorReset  = "\033[0m"
 )
 
+const (
+	DefaultCacheDir = "~/.cache/bdsdownloader"
+)
+
 func main() {
 	fmt.Println(" BDS Downloader | Distributed under the MIT License. ")
 	fmt.Println("=====================================================")
@@ -24,14 +28,21 @@ func main() {
 	parser := argparse.NewParser("bdsdown", "Download and install BDS.")
 	usePreviewPtr := parser.Flag("p", "preview", &argparse.Options{Required: false, Help: "Use preview version"})
 	skipAgreePtr := parser.Flag("y", "yes", &argparse.Options{Required: false, Help: "Skip the agreement"})
+	clearCachePtr := parser.Flag("cc", "clear-cache", &argparse.Options{Required: false, Help: "Clear the cache directory and exit"})
+	noCachePtr := parser.Flag("nc", "no-cache", &argparse.Options{Required: false, Help: "Clear the default cache directory and exit"})
+	cacheDirPtr := parser.String("cd", "cache-dir", &argparse.Options{Required: false, Help: "The directory to store downloaded files", Default: DefaultCacheDir})
 	excludedFilesPtr := parser.StringList("e", "exclude", &argparse.Options{Required: false, Help: "Exclude existing files from the installation", Default: []string{"server.properties", "allowlist.json", "permissions.json"}})
 	targetVersionPtr := parser.String("v", "version", &argparse.Options{Required: false, Help: "The version of BDS to install. If not specified, the latest release(preview if -p specified) version will be used."})
 	parser.Parse(os.Args)
 
 	usePreview := *usePreviewPtr
 	skipAgree := *skipAgreePtr
+	clearCache := *clearCachePtr
 	excludedFiles := make([]string, 0)
 	targetVersion := *targetVersionPtr
+	cacheDir := *cacheDirPtr
+	useCache := !*noCachePtr
+
 	if targetVersion == "" {
 		for i := 0; i < len(os.Args); i++ {
 			if strings.Contains(os.Args[i], "\\") || strings.Contains(os.Args[i], "/") || strings.Contains(os.Args[i], "-") {
@@ -45,6 +56,26 @@ func main() {
 		if _, err := os.Stat(file); err == nil {
 			excludedFiles = append(excludedFiles, file)
 		}
+	}
+
+	utils.SetConfig(utils.Config{
+		UsePreview:    usePreview,
+		SkipAgree:     skipAgree,
+		ClearCache:    clearCache,
+		UseCache:      !useCache,
+		CacheDir:      cacheDir,
+		ExcludedFiles: excludedFiles,
+		TargetVersion: targetVersion,
+	})
+
+	if clearCache {
+		err := os.RemoveAll(cacheDir)
+		if err != nil {
+			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
+			return
+		}
+		fmt.Println(ColorGreen + "Cache cleared." + ColorReset)
+		return
 	}
 
 	fmt.Println("Before using this software, please read: ")
@@ -72,7 +103,7 @@ func main() {
 		fmt.Println(ColorYellow + "Using preview version." + ColorReset)
 	}
 	if targetVersion != "" {
-		err := utils.Install(targetVersion, usePreview, excludedFiles)
+		err := utils.Install()
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 			return
@@ -80,20 +111,21 @@ func main() {
 		fmt.Println(ColorGreen + "Install complete." + ColorReset)
 		return
 	} else {
-		var ver string
+		var version string
 		var err error
 		if usePreview {
-			ver, err = utils.GetLatestPreviewVersion()
+			version, err = utils.GetLatestPreviewVersion()
 		} else {
 			fmt.Println("No version specified, using latest release version.")
-			ver, err = utils.GetLatestReleaseVersion()
+			version, err = utils.GetLatestReleaseVersion()
 		}
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err)
 			return
 		}
-		fmt.Println("Latest version: " + ColorBlue + ver + ColorReset)
-		err = utils.Install(ver, usePreview, excludedFiles)
+		fmt.Println("Latest version: " + ColorBlue + version + ColorReset)
+		utils.SetTargetVersion(version)
+		err = utils.Install()
 		if err != nil {
 			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
 		}

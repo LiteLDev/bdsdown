@@ -11,14 +11,14 @@ import (
 )
 
 // Unzip zip file to the current directory.
-func Unzip(zipFile *os.File, bar *progressbar.ProgressBar, excludedFiles []string) error {
+func Unzip(zipFile *os.File, bar *progressbar.ProgressBar) error {
 	fileStat, err := zipFile.Stat()
 	if err != nil {
 		return err
 	}
 
 	excludedFilesMap := make(map[string]bool)
-	for _, file := range excludedFiles {
+	for _, file := range GetConfig().ExcludedFiles {
 		excludedFilesMap[file] = true
 	}
 
@@ -64,9 +64,12 @@ func Unzip(zipFile *os.File, bar *progressbar.ProgressBar, excludedFiles []strin
 }
 
 // Install installs the given version of BDS.
-func Install(version string, isPreview bool, excludedFiles []string) error {
+func Install() error {
+	version := GetConfig().TargetVersion
+	usePreview := GetConfig().UsePreview
+
 	fmt.Println("Downloading BDS v" + version + "...")
-	path, err := DownloadVersion(version, isPreview)
+	path, err := DownloadVersion(version, usePreview)
 	if err != nil {
 		return err
 	}
@@ -92,7 +95,7 @@ func Install(version string, isPreview bool, excludedFiles []string) error {
 			BarEnd:        "]",
 		}))
 
-	Unzip(file, bar, excludedFiles)
+	Unzip(file, bar)
 	fmt.Println(" Unzip complete!")
 
 	file.Close()
