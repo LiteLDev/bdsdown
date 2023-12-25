@@ -1,4 +1,4 @@
-# BDSDownloader
+# bdsdown
 Downloader for Minecraft BDS
 
 ## Usage

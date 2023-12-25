@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/akamensky/argparse"
-	"github.com/jasonzyt/bdsdownloader/utils"
+	"github.com/liteldev/bdsdown/utils"
 )
 
 const (
@@ -22,10 +22,10 @@ const (
 func getDefaultCacheDir() string {
 	currentUser, err := user.Current()
 	if err != nil {
-		return "./.cache/bdsdownloader"
+		return "./.cache/bdsdown"
 	}
 
-	return path.Join(currentUser.HomeDir, ".cache", "bdsdownloader")
+	return path.Join(currentUser.HomeDir, ".cache", "bdsdown")
 }
 
 func main() {

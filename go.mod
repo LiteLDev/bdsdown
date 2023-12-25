@@ -1,4 +1,4 @@
-module github.com/jasonzyt/bdsdownloader
+module github.com/liteldev/bdsdown
 
 go 1.19
 

@@ -1,88 +1,29 @@
-name: Build
-
 on:
-  push:
   pull_request:
-  release:
-    types: 
-      - released
+  push:
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   build:
-    name: Build
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        GOOS: [linux, windows]
+        GOOS: [darwin, linux, windows]
         GOARCH: [amd64, arm64]
-        include:
-          - GOOS: linux
-            output: bdsdown
-          - GOOS: windows
-            output: bdsdown.exe
-    runs-on: ubuntu-latest
     steps:
-      - name: Get version if release
-        if: github.event_name == 'release'
-        run: echo "VERSION=${{ github.ref_name }}" | sed 's/=v/=/' >> $GITHUB_ENV
+      - uses: actions/checkout@v3
 
-      - name: Set default version if not release
-        if: github.event_name != 'release'
-        run: echo "VERSION=0.0.0" >> $GITHUB_ENV
-
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Set up Go
-        uses: actions/setup-go@v3
+      - uses: actions/setup-go@v3
         with:
-         go-version-file: src/go.mod
          cache: true
-         cache-dependency-path: src/go.sum
-
-      - name: Set up workspace
-        run: go work init ./src
 
       - name: Build
         run: |
           export GOOS=${{ matrix.GOOS }}
           export GOARCH=${{ matrix.GOARCH }}
-          go build -ldflags "-s -w" -o ./build/${{ matrix.output }} github.com/jasonzyt/bdsdownloader
+          go build -ldflags "-s -w" -o bin/ github.com/liteldev/bdsdown
 
-      - name: Upload build
-        uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v3
         with:
-          name: bdsdown-${{ env.VERSION }}-${{ matrix.GOOS }}-${{ matrix.GOARCH }}
-          path: build
-
-  upload-to-release:
-    name: Upload to release
-    needs: 
-      - build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'release'
-    steps:
-      - name: Get version
-        run: echo "VERSION=${{ github.ref_name }}" | sed 's/=v/=/' >> $GITHUB_ENV
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-
-      - name: Pack artifacts
-        run: |
-          zip -9r bdsdown-${{ env.VERSION }}-windows-amd64.zip bdsdown-${{ env.VERSION }}-windows-amd64/*
-          zip -9r bdsdown-${{ env.VERSION }}-windows-arm64.zip bdsdown-${{ env.VERSION }}-windows-arm64/*
-          tar -czf bdsdown-${{ env.VERSION }}-linux-amd64.tar.gz bdsdown-${{ env.VERSION }}-linux-amd64/*
-          tar -czf bdsdown-${{ env.VERSION }}-linux-arm64.tar.gz bdsdown-${{ env.VERSION }}-linux-arm64/*
-
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            bdsdown-${{ env.VERSION }}-windows-amd64.zip
-            bdsdown-${{ env.VERSION }}-windows-arm64.zip
-            bdsdown-${{ env.VERSION }}-linux-amd64.tar.gz
-            bdsdown-${{ env.VERSION }}-linux-arm64.tar.gz
+          name: ${{ matrix.GOOS }}-${{ matrix.GOARCH }}
+          path: bin
