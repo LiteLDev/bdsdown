@@ -8,15 +8,8 @@ import (
 	"strings"
 
 	"github.com/akamensky/argparse"
+	"github.com/liteldev/bdsdown/logger"
 	"github.com/liteldev/bdsdown/utils"
-)
-
-const (
-	ColorRed    = "\033[91m"
-	ColorGreen  = "\033[92m"
-	ColorYellow = "\033[93m"
-	ColorBlue   = "\033[94m"
-	ColorReset  = "\033[0m"
 )
 
 func getDefaultCacheDir() string {
@@ -78,65 +71,68 @@ func main() {
 	if clearCache {
 		err := os.RemoveAll(cacheDir)
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
+			logger.LogError(err)
 			return
 		}
-		fmt.Println(ColorGreen + "Cache cleared." + ColorReset)
+		logger.LogSuccess("Cache cleared.")
 		return
 	}
 
-	fmt.Println("Before using this software, please read: ")
-	fmt.Println("- Minecraft End User License Agreement   https://minecraft.net/terms")
-	fmt.Println("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
+	logger.Log("Before using this software, please read: ")
+	logger.Log("- Minecraft End User License Agreement   https://minecraft.net/terms")
+	logger.Log("- Microsoft Privacy Policy               https://go.microsoft.com/fwlink/?LinkId=521839")
 	fmt.Print("Please enter y if you agree with the above terms: ")
 	var agree string
 	if skipAgree {
 		agree = "y"
-		fmt.Println(agree)
+		logger.Log(agree)
 	} else {
 		fmt.Scanln(&agree)
 	}
 	if agree != "y" {
-		fmt.Println(ColorYellow + "You must agree with the above terms to use this software." + ColorReset)
+		logger.LogWarning("You must agree to the terms to use this software.")
 		return
 	}
-	fmt.Println("=====================================================")
+	logger.Log("=====================================================")
 
 	if len(excludedFiles) > 0 {
-		fmt.Println("The following files will be excluded from installation: ", excludedFiles)
+		logger.Log("The following files will be excluded from installation: ", excludedFiles)
 	}
 
 	if usePreview {
-		fmt.Println(ColorYellow + "Using preview version." + ColorReset)
+		logger.LogWarning("Using preview version.")
 	}
 
 	if targetVersion != "" {
 		err := utils.Install()
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
+			logger.LogError(err)
 			return
 		}
-		fmt.Println(ColorGreen + "Install complete." + ColorReset)
+		logger.LogSuccess("Install complete.")
 	} else {
 		var version string
 		var err error
 		if usePreview {
 			version, err = utils.GetLatestPreviewVersion()
 		} else {
-			fmt.Println("No version specified, using latest release version.")
+			logger.Log("No version specified, using latest release version.")
 			version, err = utils.GetLatestReleaseVersion()
 		}
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR:", err)
+			logger.LogError(err)
 			return
 		}
-		fmt.Println("Latest version: " + ColorBlue + version + ColorReset)
+		logger.Log("Latest version:", logger.ColorBlue+version+logger.ColorReset)
 		utils.SetTargetVersion(version)
 
 		err = utils.Install()
 		if err != nil {
-			fmt.Println(ColorRed+"ERROR:", err, ColorReset)
+			logger.LogError(err)
+			// TODO: Add rollback
+			// TODO: Add tips for common errors(clearing cache, etc.)
+			return
 		}
-		fmt.Println(ColorGreen + "Install complete." + ColorReset)
+		logger.LogSuccess("Install complete.")
 	}
 }

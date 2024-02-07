@@ -3,11 +3,11 @@ package utils
 import (
 	"archive/zip"
 	"compress/flate"
-	"fmt"
 	"io"
 	"os"
 	"path"
 
+	"github.com/liteldev/bdsdown/logger"
 	"github.com/schollz/progressbar/v3"
 )
 
@@ -84,25 +84,25 @@ func Install() error {
 	var err error
 
 	if useCache {
-		fmt.Println("Checking cache...")
+		logger.Log("Checking cache...")
 		path, err = CheckCache(version, cacheDir)
 		if err == nil {
-			fmt.Println(" Found cache!")
-			fmt.Println("Unziping cached files...")
+			logger.Log(" Found cache!")
+			logger.Log("Unziping cached files...")
 			goto Unzip
 		} else {
-			fmt.Println(" Cache not found.")
+			logger.Log(" Cache not found.")
 		}
 	}
 
-	fmt.Println("Downloading BDS v" + version + "...")
+	logger.Log("Downloading BDS v" + version + "...")
 	path, err = DownloadVersion(version, usePreview)
 	if err != nil {
 		return err
 	}
-	fmt.Println(" Download complete!")
+	logger.Log(" Download complete!")
 
-	fmt.Println("Unziping downloaded files...")
+	logger.Log("Unziping downloaded files...")
 
 Unzip:
 	file, err := os.OpenFile(path, os.O_RDONLY, 0)
@@ -125,15 +125,16 @@ Unzip:
 		}))
 
 	Unzip(file, bar)
-	fmt.Println(" Unzip complete!")
+	logger.Log(" Unzip complete!")
 
 	file.Close()
 	if !useCache {
-		fmt.Println("Cleaning up...")
+		logger.Log("Cleaning up...")
 		err = os.Remove(path)
 		if err != nil {
 			return err
 		}
+		logger.Log(" Clean up complete!")
 	}
 
 	return nil
