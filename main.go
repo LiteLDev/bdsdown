@@ -130,7 +130,6 @@ func main() {
 		if err != nil {
 			logger.LogError(err)
 			// TODO: Add rollback
-			// TODO: Add tips for common errors(clearing cache, etc.)
 			return
 		}
 		logger.LogSuccess("Install complete.")

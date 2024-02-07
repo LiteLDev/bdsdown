@@ -124,8 +124,15 @@ Unzip:
 			BarEnd:        "]",
 		}))
 
-	Unzip(file, bar)
-	logger.Log(" Unzip complete!")
+	err = Unzip(file, bar)
+	if err != nil {
+		if useCache {
+			logger.LogWarning(" Failed to unzip files. Consider clearing cache(--clear-cache) or disable cache(--no-cache) and try again.")
+		}
+		return err
+	} else {
+		logger.Log(" Unzip complete!")
+	}
 
 	file.Close()
 	if !useCache {
