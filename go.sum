@@ -18,8 +18,8 @@ github.com/antonholmquist/jason v1.0.1-0.20160829104012-962e09b85496 h1:dESITduf
 github.com/antonholmquist/jason v1.0.1-0.20160829104012-962e09b85496/go.mod h1:+GxMEKI0Va2U8h3os6oiUAetHAlGMvxjdpAH/9uvUMA=
 github.com/asaskevich/govalidator v0.0.0-20161001163130-7b3beb6df3c4 h1:roUAANycAr9TS5tnrZboqlI+bGfcY8n9nDyD1WDgn74=
 github.com/asaskevich/govalidator v0.0.0-20161001163130-7b3beb6df3c4/go.mod h1:lB+ZfQJz7igIIfQNfa7Ml4HSf2uFQQRzpGGRXenZAgY=
-github.com/cheggaaa/pb/v3 v3.1.4 h1:DN8j4TVVdKu3WxVwcRKu0sG00IIU6FewoABZzXbRQeo=
-github.com/cheggaaa/pb/v3 v3.1.4/go.mod h1:6wVjILNBaXMs8c21qRiaUM8BR82erfgau1DQ4iUXmSA=
+github.com/cheggaaa/pb/v3 v3.1.5 h1:QuuUzeM2WsAqG2gMqtzaWithDJv0i+i6UlnwSCI4QLk=
+github.com/cheggaaa/pb/v3 v3.1.5/go.mod h1:CrxkeghYTXi1lQBEI7jSn+3svI3cuc19haAj6jM60XI=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -39,8 +39,8 @@ github.com/mattn/go-isatty v0.0.12/go.mod h1:cbi8OIDigv2wuxKPP5vlRcQ1OAZbq2CE4Ky
 github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
 github.com/mattn/go-isatty v0.0.19 h1:JITubQf0MOLdlGRuRq+jtsDlekdYPia9ZFsB8h/APPA=
 github.com/mattn/go-isatty v0.0.19/go.mod h1:W+V8PltTTMOvKvAeJH7IuucS94S2C6jfK/D7dTCTo3Y=
-github.com/mattn/go-runewidth v0.0.14 h1:+xnbZSEeDbOIg5/mE6JF0w6n9duR1l3/WmbinWVwUuU=
-github.com/mattn/go-runewidth v0.0.14/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
+github.com/mattn/go-runewidth v0.0.15 h1:UNAjwbU9l54TA3KzvqLGxwWjHmMgBUVhBiTjelZgg3U=
+github.com/mattn/go-runewidth v0.0.15/go.mod h1:Jdepj2loyihRzMpdS35Xk/zdY8IAYHsh153qUoGf23w=
 github.com/mcuadros/go-version v0.0.0-20141206211339-d52711f8d6be h1:tj81VrKAa9Vv71Ugze2mtnOiU2ozpJau8itbf3XP3fo=
 github.com/mcuadros/go-version v0.0.0-20141206211339-d52711f8d6be/go.mod h1:76rfSfYPWj01Z85hUf/ituArm797mNKcvINh1OlsZKo=
 github.com/mholt/archiver v3.1.1+incompatible h1:1dCVxuqs0dJseYEhi5pl7MYPH9zDa1wBi7mF09cbNkU=
