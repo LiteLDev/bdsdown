@@ -3,9 +3,6 @@ on:
     types: 
       - published
 
-permissions:
-  contents: write
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,9 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-go@v4
+      - uses: actions/setup-go@v5
         with:
-          go-version: '^1.21.5'
+         cache: true
 
       - name: Build
         run: |
@@ -26,50 +23,69 @@ jobs:
           export GOARCH=${{ matrix.GOARCH }}
           go build -ldflags "-s -w" -o bin/ github.com/liteldev/bdsdown
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.GOOS }}-${{ matrix.GOARCH }}
+          name: bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}-${{ github.sha }}
           path: bin
+
+  update-release-notes:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate release stuff (tooth.json, CHANGELOG.md, etc.)
+        run: |
+          npm i -g keep-a-changelog
+          python scripts/validate_release.py --tag ${{ github.event.release.tag_name }}
+
+      - id: extract-release-notes
+        uses: ffurrer2/extract-release-notes@v2
+
+      - uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.extract-release-notes.outputs.release_notes }}
 
   upload-to-release:
     needs: 
       - build
+      - update-release-notes
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
         GOOS: [darwin, linux, windows]
         GOARCH: [amd64, arm64]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.GOOS }}-${{ matrix.GOARCH }}
+          name: bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}-${{ github.sha }}
           path: artifact
 
       - name: Copy essential files
         run: |
-          cp CHANGELOG.md LICENSE README.md artifact/
+          cp CHANGELOG.md COPYING README.md artifact/
 
       - name: Pack artifact (Windows)
         if: matrix.GOOS == 'windows'
         run: |
-          cd artifact
           zip -r ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip *
-          cd ..
+        working-directory: artifact
 
       - name: Pack artifact (Others)
         if: matrix.GOOS != 'windows'
         run: |
-          cd artifact
           tar -czvf ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz *
-          cd ..
+        working-directory: artifact
 
       - name: Upload artifact to release (Windows)
         if: matrix.GOOS == 'windows'
         uses: softprops/action-gh-release@v1
         with:
-          append_body: true
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip
 
@@ -77,6 +93,5 @@ jobs:
         if: matrix.GOOS != 'windows'
         uses: softprops/action-gh-release@v1
         with:
-          append_body: true
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz

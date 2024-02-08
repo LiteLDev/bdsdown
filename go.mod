@@ -2,8 +2,6 @@ module github.com/liteldev/bdsdown
 
 go 1.21
 
-toolchain go1.21.0
-
 require (
 	github.com/LiteLDev/pget v0.2.5
 	github.com/PuerkitoBio/goquery v1.8.1
