@@ -6,7 +6,7 @@ require (
 	github.com/LiteLDev/pget v0.2.5
 	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/alexflint/go-arg v1.4.3
-	github.com/cheggaaa/pb/v3 v3.1.4
+	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/deckarep/golang-set/v2 v2.6.0
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 )
@@ -23,7 +23,7 @@ require (
 	github.com/jessevdk/go-flags v0.0.0-20160903113131-4cc2832a6e6d // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
-	github.com/mattn/go-runewidth v0.0.14 // indirect
+	github.com/mattn/go-runewidth v0.0.15 // indirect
 	github.com/mcuadros/go-version v0.0.0-20141206211339-d52711f8d6be // indirect
 	github.com/pkg/errors v0.8.1-0.20161002052512-839d9e913e06 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
