@@ -27,8 +27,8 @@ require (
 	github.com/mcuadros/go-version v0.0.0-20141206211339-d52711f8d6be // indirect
 	github.com/pkg/errors v0.8.1-0.20161002052512-839d9e913e06 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
-	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
-	golang.org/x/sys v0.6.0 // indirect
-	golang.org/x/term v0.5.0 // indirect
+	golang.org/x/sys v0.13.0 // indirect
+	golang.org/x/term v0.13.0 // indirect
 )
