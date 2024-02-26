@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "tooth": "github.com/LiteLDev/bdsdown",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "info": {
         "name": "bdsdown",
         "description": "Downloader for Minecraft BDS",
@@ -9,9 +9,6 @@
         "tags": [
             "utility"
         ]
-    },
-    "dependencies": {
-        "github.com/LiteLDev/bdsdown-legacy": "0.4.1"
     },
     "platforms": [
         {
