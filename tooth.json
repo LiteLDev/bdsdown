@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "tooth": "github.com/LiteLDev/bdsdown",
-    "version": "0.5.2",
+    "version": "1.0.0",
     "info": {
         "name": "bdsdown",
         "description": "Downloader for Minecraft BDS",
