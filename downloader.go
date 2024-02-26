@@ -2,11 +2,12 @@ package main
 
 import (
 	"context"
-	"github.com/LiteLDev/pget"
 	"net/http"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/LiteLDev/pget"
 )
 
 func newDownloadClient(maxIdleConnsPerHost int) *http.Client {
@@ -31,8 +32,12 @@ func DownloadFile(url, dest string) error {
 		return err
 	}
 
+	if _, err := os.Stat(dest); err == nil {
+		return nil
+	}
+
 	dir, _ := filepath.Split(dest)
-	os.MkdirAll(dir, 644)
+	os.MkdirAll(dir, 0755)
 
 	opts := []pget.DownloadOption{
 		pget.WithUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36", ""),
