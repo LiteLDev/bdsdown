@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/LiteLDev/pget v0.2.5
-	github.com/PuerkitoBio/goquery v1.9.0
+	github.com/PuerkitoBio/goquery v1.9.1
 	github.com/alexflint/go-arg v1.4.3
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/deckarep/golang-set/v2 v2.6.0
