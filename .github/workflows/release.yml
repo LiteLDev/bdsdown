@@ -70,28 +70,13 @@ jobs:
         run: |
           cp CHANGELOG.md COPYING README.md artifact/
 
-      - name: Pack artifact (Windows)
-        if: matrix.GOOS == 'windows'
+      - name: Pack artifact
         run: |
           zip -r ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip *
         working-directory: artifact
 
-      - name: Pack artifact (Others)
-        if: matrix.GOOS != 'windows'
-        run: |
-          tar -czvf ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz *
-        working-directory: artifact
-
-      - name: Upload artifact to release (Windows)
-        if: matrix.GOOS == 'windows'
+      - name: Upload artifact to release
         uses: softprops/action-gh-release@v1
         with:
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip
-
-      - name: Upload artifact to release (Others)
-        if: matrix.GOOS != 'windows'
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz
