@@ -53,6 +53,10 @@ func UnzipPackage(file, dest string) error {
 		}
 		bar.Add(1)
 		realPath := filepath.Join(dest, f.Name)
+		if realPath.Contains("..") {
+			log.Warnf("Skipped invalid path %s", realPath)
+			continue
+		}
 		if f.FileInfo().IsDir() {
 			os.MkdirAll(realPath, f.Mode())
 		} else {
