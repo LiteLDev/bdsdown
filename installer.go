@@ -2,10 +2,12 @@ package main
 
 import (
 	"archive/zip"
-	"github.com/cheggaaa/pb/v3"
 	"io"
 	"os"
 	"path/filepath"
+	"strings"
+
+	"github.com/cheggaaa/pb/v3"
 )
 
 func fileExists(filename string) bool {
@@ -25,10 +27,10 @@ func UnzipPackage(file, dest string) error {
 	defer zipFile.Close()
 
 	bar := pb.StartNew(len(zipFile.File))
-	os.MkdirAll(dest, 644)
+	os.MkdirAll(dest, 0644)
 
 	for _, f := range zipFile.File {
-		extractFile := func(path string, file *zip.File) error {
+		extractFile := func(path string) error {
 			if fileExists(path) && config.InstallerExcludeSet.Contains(f.Name) {
 				return nil
 			}
@@ -53,14 +55,14 @@ func UnzipPackage(file, dest string) error {
 		}
 		bar.Add(1)
 		realPath := filepath.Join(dest, f.Name)
-		if realPath.Contains("..") {
-			log.Warnf("Skipped invalid path %s", realPath)
+		if strings.Contains(realPath, "..") {
+			log.Warningf("Skipped invalid path %s", realPath)
 			continue
 		}
 		if f.FileInfo().IsDir() {
 			os.MkdirAll(realPath, f.Mode())
 		} else {
-			extractFile(realPath, f)
+			extractFile(realPath)
 		}
 
 	}
