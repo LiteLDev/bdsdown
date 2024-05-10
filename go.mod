@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/LiteLDev/pget v0.2.5
-	github.com/PuerkitoBio/goquery v1.9.1
+	github.com/PuerkitoBio/goquery v1.9.2
 	github.com/alexflint/go-arg v1.4.3
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/deckarep/golang-set/v2 v2.6.0
@@ -27,8 +27,8 @@ require (
 	github.com/mcuadros/go-version v0.0.0-20141206211339-d52711f8d6be // indirect
 	github.com/pkg/errors v0.8.1-0.20161002052512-839d9e913e06 // indirect
 	github.com/rivo/uniseg v0.2.0 // indirect
-	golang.org/x/net v0.23.0 // indirect
+	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
-	golang.org/x/term v0.18.0 // indirect
+	golang.org/x/sys v0.19.0 // indirect
+	golang.org/x/term v0.19.0 // indirect
 )
