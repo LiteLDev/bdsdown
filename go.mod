@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/LiteLDev/pget v0.2.5
 	github.com/PuerkitoBio/goquery v1.9.2
-	github.com/alexflint/go-arg v1.4.3
+	github.com/alexflint/go-arg v1.5.0
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/deckarep/golang-set/v2 v2.6.0
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
@@ -15,7 +15,7 @@ require (
 	github.com/Code-Hex/updater v0.0.0-20160712085121-c3f278672520 // indirect
 	github.com/Songmu/prompter v0.5.0 // indirect
 	github.com/VividCortex/ewma v1.2.0 // indirect
-	github.com/alexflint/go-scalar v1.1.0 // indirect
+	github.com/alexflint/go-scalar v1.2.0 // indirect
 	github.com/andybalholm/cascadia v1.3.2 // indirect
 	github.com/antonholmquist/jason v1.0.1-0.20160829104012-962e09b85496 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20161001163130-7b3beb6df3c4 // indirect
