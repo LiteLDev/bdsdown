@@ -5,7 +5,7 @@ go 1.21
 require (
 	github.com/LiteLDev/pget v0.2.5
 	github.com/PuerkitoBio/goquery v1.9.2
-	github.com/alexflint/go-arg v1.5.0
+	github.com/alexflint/go-arg v1.5.1
 	github.com/cheggaaa/pb/v3 v3.1.5
 	github.com/deckarep/golang-set/v2 v2.6.0
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
