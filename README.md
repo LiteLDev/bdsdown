@@ -26,6 +26,8 @@ Options:
   --help, -h             display this help and exit
 ```
 
+You can use custom mirror to accelerate download by defining environment variable `BDSDOWN_MIRROR_URL`, for example: `https://mcdl.bibk.top`
+
 ## Contributing
 
 Feel free to dive in! Open an issue or submit PRs.

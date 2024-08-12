@@ -2,15 +2,20 @@ package main
 
 import (
 	"bytes"
+	"encoding/json"
+	"io"
+	"net/http"
 	"net/url"
+	"os"
 	"path"
 	"strings"
 	"text/template"
 )
 
 const (
-	CACHE_DIR         = "./.cache/bdsdown"
-	VERSION_QUERY_URL = "https://www.minecraft.net/en-us/download/server/bedrock"
+	CACHE_DIR           = "./.cache/bdsdown"
+	VERSION_QUERY_URL   = "https://www.minecraft.net/en-us/download/server/bedrock"
+	DEFAULT_MIRROR_HOST = "mcdl.bibk.top"
 )
 
 var VERSION_TEMPLATE = map[string]*template.Template{
@@ -35,6 +40,22 @@ func main() {
 	processHttpPackage := func(u *url.URL) {
 		_, f := path.Split(u.Path)
 		f = path.Join(CACHE_DIR, f)
+		mirrorEnv := os.Getenv("BDSDOWN_MIRROR_URL")
+		if mirrorEnv != "" || needUseMirror() {
+			if mirrorEnv == "" {
+				u.Host = DEFAULT_MIRROR_HOST
+			} else {
+				mirrorUrl, err := url.Parse(mirrorEnv)
+				if err != nil {
+					log.Error("failed to parse BDSDOWN_MIRROR_URL, use default mirror instead")
+					u.Host = DEFAULT_MIRROR_HOST
+				} else {
+					u.Scheme = mirrorUrl.Scheme
+					u.Host = mirrorUrl.Host
+				}
+			}
+			log.Info("trying download from mirror")
+		}
 		err := DownloadFile(u.String(), f)
 		if err != nil {
 			log.Fatal(err)
@@ -76,4 +97,41 @@ func main() {
 		log.Fatalf("unsupported scheme for target package %s", config.TargetPackage.Scheme)
 	}
 
+}
+
+func needUseMirror() bool {
+	resp, err := http.Get("http://ip-api.com/json/")
+	if err != nil {
+		log.Warningf("failed to get IP location: %v, use mirror by default.", err)
+		return true
+	}
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Warningf("failed to get IP location: %v, use mirror by default.", err)
+		return true
+	}
+	type IPData struct {
+		Status      string
+		Country     string
+		CountryCode string
+		Region      string
+		RegionName  string
+		City        string
+		Zip         string
+		Lat         float32
+		Lon         float32
+		Timezone    string
+		Isp         string
+		Org         string
+		As          string
+		Query       string
+	}
+	var data IPData
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		log.Warningf("failed to get IP location: %v, use mirror by default.", err)
+		return true
+	}
+	return data.CountryCode == "CN"
 }
