@@ -58,7 +58,17 @@ func main() {
 		}
 		err := DownloadFile(u.String(), f)
 		if err != nil {
-			log.Fatal(err)
+			if u.Host != "minecraft.azureedge.net" {
+				log.Errorf("failed to download from mirror: %v, trying fallback", err)
+				u.Scheme = "https"
+				u.Host = "minecraft.azureedge.net"
+				err := DownloadFile(u.String(), f)
+				if err != nil {
+					log.Fatal(err)
+				}
+			} else {
+				log.Fatal(err)
+			}
 		}
 		err = UnzipPackage(f, ".")
 		if err != nil {
