@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.4] - 2024-08-16
+
+### Fixed
+
+- Fix Windows on Arm installtation
+
 ## [1.0.3] - 2024-08-12
 
 ### Added
@@ -84,7 +90,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Basic functionality
 
-[Unreleased]: https://github.com/LiteLDev/bdsdown/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/LiteLDev/bdsdown/compare/v1.0.4...HEAD
+[1.0.4]: https://github.com/LiteLDev/bdsdown/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/LiteLDev/bdsdown/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/LiteLDev/bdsdown/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/LiteLDev/bdsdown/compare/v1.0.0...v1.0.1
