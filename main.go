@@ -19,10 +19,10 @@ const (
 )
 
 var VERSION_TEMPLATE = map[string]*template.Template{
-	"windows":         template.Must(template.New("windows").Parse("https://minecraft.azureedge.net/bin-win/bedrock-server-{{.}}.zip")),
-	"linux":           template.Must(template.New("linux").Parse("https://minecraft.azureedge.net/bin-linux/bedrock-server-{{.}}.zip")),
-	"windows-preview": template.Must(template.New("windows-preview").Parse("https://minecraft.azureedge.net/bin-win-preview/bedrock-server-{{.}}.zip")),
-	"linux-preview":   template.Must(template.New("linux-preview").Parse("https://minecraft.azureedge.net/bin-linux-preview/bedrock-server-{{.}}.zip")),
+	"windows":         template.Must(template.New("windows").Parse("https://www.minecraft.net/bedrockdedicatedserver/bin-win/bedrock-server-{{.}}.zip")),
+	"linux":           template.Must(template.New("linux").Parse("https://www.minecraft.net/bedrockdedicatedserver/bin-linux/bedrock-server-{{.}}.zip")),
+	"windows-preview": template.Must(template.New("windows-preview").Parse("https://www.minecraft.net/bedrockdedicatedserver/bin-win-preview/bedrock-server-{{.}}.zip")),
+	"linux-preview":   template.Must(template.New("linux-preview").Parse("https://www.minecraft.net/bedrockdedicatedserver/bin-linux-preview/bedrock-server-{{.}}.zip")),
 }
 
 func main() {
@@ -58,10 +58,10 @@ func main() {
 		}
 		err := DownloadFile(u.String(), f)
 		if err != nil {
-			if u.Host != "minecraft.azureedge.net" {
+			if u.Host != "www.minecraft.net" {
 				log.Errorf("failed to download from mirror: %v, trying fallback", err)
 				u.Scheme = "https"
-				u.Host = "minecraft.azureedge.net"
+				u.Host = "www.minecraft.net"
 				err := DownloadFile(u.String(), f)
 				if err != nil {
 					log.Fatal(err)
