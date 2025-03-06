@@ -1,111 +1,137 @@
 {
-    "format_version": 2,
+    "format_version": 3,
+    "format_uuid": "289f771f-2c9a-4d73-9f3f-8492495a924d",
     "tooth": "github.com/LiteLDev/bdsdown",
-    "version": "1.0.5",
+    "version": "1.1.0",
     "info": {
         "name": "bdsdown",
         "description": "Downloader for Minecraft BDS",
-        "author": "LiteLDev",
         "tags": [
             "utility"
         ]
     },
-    "platforms": [
+    "variants": [
         {
-            "goos": "darwin",
-            "goarch": "amd64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-darwin-amd64.tar.gz",
-            "commands": {
-                "post_install": [
+            "platform": "osx-x64",
+            "assets": [
+                {
+                    "type": "tgz",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-darwin-amd64.tar.gz"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown",
+                            "dest": "bdsdown"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "osx-arm64",
+            "assets": [
+                {
+                    "type": "tgz",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-darwin-arm64.tar.gz"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown",
+                            "dest": "bdsdown"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "linux-x64",
+            "assets": [
+                {
+                    "type": "tgz",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-linux-amd64.tar.gz"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown",
+                            "dest": "bdsdown"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "linux-arm64",
+            "assets": [
+                {
+                    "type": "tgz",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-linux-arm64.tar.gz"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown",
+                            "dest": "bdsdown"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "win-x64",
+            "assets": [
+                {
+                    "type": "zip",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-windows-amd64.zip"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown.exe",
+                            "dest": "bdsdown.exe"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "win-arm64",
+            "assets": [
+                {
+                    "type": "zip",
+                    "urls": [
+                        "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-windows-arm64.zip"
+                    ],
+                    "placements": [
+                        {
+                            "type": "file",
+                            "src": "bdsdown.exe",
+                            "dest": "bdsdown.exe"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "platform": "osx-*",
+            "scripts": {
+                "install": [
                     "chmod +x ./bdsdown"
                 ]
-            },
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown",
-                        "dest": "bdsdown"
-                    }
-                ]
             }
         },
         {
-            "goos": "darwin",
-            "goarch": "arm64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-darwin-arm64.tar.gz",
-            "commands": {
-                "post_install": [
+            "platform": "linux-*",
+            "scripts": {
+                "install": [
                     "chmod +x ./bdsdown"
-                ]
-            },
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown",
-                        "dest": "bdsdown"
-                    }
-                ]
-            }
-        },
-        {
-            "goos": "linux",
-            "goarch": "amd64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-linux-amd64.tar.gz",
-            "commands": {
-                "post_install": [
-                    "chmod +x ./bdsdown"
-                ]
-            },
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown",
-                        "dest": "bdsdown"
-                    }
-                ]
-            }
-        },
-        {
-            "goos": "linux",
-            "goarch": "arm64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-linux-arm64.tar.gz",
-            "commands": {
-                "post_install": [
-                    "chmod +x ./bdsdown"
-                ]
-            },
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown",
-                        "dest": "bdsdown"
-                    }
-                ]
-            }
-        },
-        {
-            "goos": "windows",
-            "goarch": "amd64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-windows-amd64.zip",
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown.exe",
-                        "dest": "bdsdown.exe"
-                    }
-                ]
-            }
-        },
-        {
-            "goos": "windows",
-            "goarch": "arm64",
-            "asset_url": "https://github.com/LiteLDev/bdsdown/releases/download/v1.0.5/bdsdown-windows-arm64.zip",
-            "files": {
-                "place": [
-                    {
-                        "src": "bdsdown.exe",
-                        "dest": "bdsdown.exe"
-                    }
                 ]
             }
         }
