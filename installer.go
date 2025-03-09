@@ -22,6 +22,7 @@ func UnzipPackage(file, dest string) error {
 	log.Infof("Extracting %s to %s", file, dest)
 	zipFile, err := zip.OpenReader(file)
 	if err != nil {
+		os.Remove(file)
 		return err
 	}
 	defer zipFile.Close()

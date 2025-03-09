@@ -55,17 +55,20 @@ func main() {
 				u.Host = "www.minecraft.net"
 				err := DownloadFile(u.String(), f)
 				if err != nil {
+					os.Remove(f)
 					log.Fatal(err)
+					return
 				}
 			} else {
+				os.Remove(f)
 				log.Fatal(err)
+				return
 			}
 		}
 		err = UnzipPackage(f, ".")
 		if err != nil {
 			log.Fatal(err)
 		}
-
 	}
 	if config.TargetPackage.Scheme == "file" {
 		err := UnzipPackage(path.Join(config.TargetPackage.Host, config.TargetPackage.Path), ".")
