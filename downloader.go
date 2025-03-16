@@ -6,7 +6,8 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
-	"time"
+
+	"github.com/cheggaaa/pb/v3"
 )
 
 func DownloadFile(url, dest string) error {
@@ -41,41 +42,15 @@ func DownloadFile(url, dest string) error {
 		return fmt.Errorf("bad status: %s", resp.Status)
 	}
 
-	// Get file size
-	size := resp.ContentLength
-	progress := &ProgressReader{Reader: resp.Body, Total: size}
+	bar := pb.Full.Start64(resp.ContentLength)
+	barReader := bar.NewProxyReader(resp.Body)
 
-	// Enable progressbar goroutine
-	go progress.PrintProgress()
-
-	_, err = io.Copy(out, progress)
+	_, err = io.Copy(out, barReader)
 	if err != nil {
 		return err
 	}
 
+	bar.Finish()
+
 	return nil
-}
-
-type ProgressReader struct {
-	io.Reader
-	Total   int64
-	Current int64
-}
-
-func (pr *ProgressReader) Read(p []byte) (int, error) {
-	n, err := pr.Reader.Read(p)
-	pr.Current += int64(n)
-	return n, err
-}
-
-func (pr *ProgressReader) PrintProgress() {
-	for {
-		percentage := float64(pr.Current) / float64(pr.Total) * 100
-		log.Infof("Downloading... %.2f%% complete", percentage)
-		if pr.Current >= pr.Total {
-			log.Info("Download complete")
-			break
-		}
-		time.Sleep(1 * time.Second)
-	}
 }
