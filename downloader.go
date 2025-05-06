@@ -43,6 +43,7 @@ func DownloadFile(url, dest string) error {
 	}
 
 	bar := pb.Full.Start64(resp.ContentLength)
+	bar.Set(pb.ReturnSymbol, "\r").Set(pb.Terminal, true)
 	barReader := bar.NewProxyReader(resp.Body)
 
 	_, err = io.Copy(out, barReader)

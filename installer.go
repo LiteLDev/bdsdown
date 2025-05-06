@@ -28,6 +28,7 @@ func UnzipPackage(file, dest string) error {
 	defer zipFile.Close()
 
 	bar := pb.StartNew(len(zipFile.File))
+	bar.Set(pb.ReturnSymbol, "\r").Set(pb.Terminal, true)
 	os.MkdirAll(dest, 0644)
 
 	for _, f := range zipFile.File {
