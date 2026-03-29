@@ -43,7 +43,7 @@ jobs:
       - id: extract-release-notes
         uses: ffurrer2/extract-release-notes@v2
 
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.extract-release-notes.outputs.release_notes }}
 
@@ -84,14 +84,14 @@ jobs:
 
       - name: Upload artifact to release (Windows)
         if: matrix.GOOS == 'windows'
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip
 
       - name: Upload artifact to release (Others)
         if: matrix.GOOS != 'windows'
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz
