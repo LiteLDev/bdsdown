@@ -2,7 +2,7 @@
     "format_version": 3,
     "format_uuid": "289f771f-2c9a-4d73-9f3f-8492495a924d",
     "tooth": "github.com/LiteLDev/bdsdown",
-    "version": "1.1.4",
+    "version": "1.2.1",
     "info": {
         "name": "bdsdown",
         "description": "Downloader for Minecraft BDS",
@@ -17,7 +17,7 @@
                 {
                     "type": "tgz",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-darwin-amd64.tar.gz"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-darwin-amd64.tar.gz"
                     ],
                     "placements": [
                         {
@@ -35,7 +35,7 @@
                 {
                     "type": "tgz",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-darwin-arm64.tar.gz"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-darwin-arm64.tar.gz"
                     ],
                     "placements": [
                         {
@@ -53,7 +53,7 @@
                 {
                     "type": "tgz",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-linux-amd64.tar.gz"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-linux-amd64.tar.gz"
                     ],
                     "placements": [
                         {
@@ -71,7 +71,7 @@
                 {
                     "type": "tgz",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-linux-arm64.tar.gz"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-linux-arm64.tar.gz"
                     ],
                     "placements": [
                         {
@@ -89,7 +89,7 @@
                 {
                     "type": "zip",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-windows-amd64.zip"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-windows-amd64.zip"
                     ],
                     "placements": [
                         {
@@ -107,7 +107,7 @@
                 {
                     "type": "zip",
                     "urls": [
-                        "https://github.com/LiteLDev/bdsdown/releases/download/v{{version}}/bdsdown-windows-arm64.zip"
+                        "https://{{tooth}}/releases/download/v{{version}}/bdsdown-windows-arm64.zip"
                     ],
                     "placements": [
                         {
