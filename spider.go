@@ -1,8 +1,8 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"github.com/PuerkitoBio/goquery"
 	"net/http"
 	"net/url"
 	"time"
@@ -52,16 +52,25 @@ func FetchVersions(link string) (map[string]*url.URL, error) {
 	if res.StatusCode != 200 {
 		return nil, fmt.Errorf("failed to fetch version with given url, code=%d", res.StatusCode)
 	}
-	doc, err := goquery.NewDocumentFromReader(res.Body)
-	if err != nil {
+	var response struct {
+		Result struct {
+			Links []struct {
+				DownloadType string `json:"downloadType"`
+				DownloadURL  string `json:"downloadUrl"`
+			} `json:"links"`
+		} `json:"result"`
+	}
+	if err := json.NewDecoder(res.Body).Decode(&response); err != nil {
 		return nil, err
 	}
 
 	result := make(map[string]*url.URL)
-	doc.Find(".downloadlink").Each(func(i int, s *goquery.Selection) {
-		plat, _ := s.Attr("data-platform")
-		href, _ := s.Attr("href")
-		result[plat], _ = url.Parse(href)
-	})
+	for _, item := range response.Result.Links {
+		u, err := url.Parse(item.DownloadURL)
+		if err != nil {
+			return nil, fmt.Errorf("invalid download url for %s: %w", item.DownloadType, err)
+		}
+		result[item.DownloadType] = u
+	}
 	return result, nil
 }

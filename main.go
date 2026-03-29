@@ -11,7 +11,7 @@ import (
 
 const (
 	CACHE_DIR         = "./.cache/bdsdown"
-	VERSION_QUERY_URL = "https://www.minecraft.net/en-us/download/server/bedrock"
+	VERSION_QUERY_URL = "https://net-secondary.web.minecraft-services.net/api/v1.0/download/links"
 )
 
 var VERSION_TEMPLATE = map[string]*template.Template{

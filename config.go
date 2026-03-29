@@ -1,9 +1,10 @@
 package main
 
 import (
+	"net/url"
+
 	"github.com/alexflint/go-arg"
 	set "github.com/deckarep/golang-set/v2"
-	"net/url"
 )
 
 var platformMapping = map[string]string{

@@ -3,7 +3,6 @@ module github.com/liteldev/bdsdown
 go 1.26.1
 
 require (
-	github.com/PuerkitoBio/goquery v1.12.0
 	github.com/alexflint/go-arg v1.6.1
 	github.com/cheggaaa/pb/v3 v3.1.7
 	github.com/deckarep/golang-set/v2 v2.8.0
@@ -13,12 +12,10 @@ require (
 require (
 	github.com/VividCortex/ewma v1.2.0 // indirect
 	github.com/alexflint/go-scalar v1.2.0 // indirect
-	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/fatih/color v1.18.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	golang.org/x/net v0.52.0 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 )
