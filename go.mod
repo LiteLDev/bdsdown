@@ -5,7 +5,7 @@ go 1.26.1
 require (
 	github.com/alexflint/go-arg v1.6.1
 	github.com/cheggaaa/pb/v3 v3.1.7
-	github.com/deckarep/golang-set/v2 v2.8.0
+	github.com/deckarep/golang-set/v2 v2.9.0
 	github.com/op/go-logging v0.0.0-20160315200505-970db520ece7
 )
 
@@ -17,5 +17,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.16 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
+	go.mongodb.org/mongo-driver v1.17.4 // indirect
 	golang.org/x/sys v0.42.0 // indirect
 )
