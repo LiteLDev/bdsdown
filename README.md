@@ -4,7 +4,7 @@ Downloader for Minecraft BDS
 
 ## Install
 
-Install via [lip](https://github.com/lippkg/lip):
+Install via [lip](https://github.com/LiteLDev/lip):
 
 ```sh
 lip install github.com/LiteLDev/bdsdown
