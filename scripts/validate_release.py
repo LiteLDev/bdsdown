@@ -14,6 +14,7 @@ def main():
     version = args["tag"].lstrip("v")
 
     validate_changelog(version)
+    validate_lip_toml(version)
 
 
 def get_args() -> Args:
@@ -43,6 +44,20 @@ def validate_changelog(version: str):
 
     if not re.search(r"## \[{}\]".format(version), content):
         raise Exception("CHANGELOG.md lacks version {}".format(version))
+
+
+def validate_lip_toml(version: str):
+    with open("lip.toml", "r", encoding="utf-8") as f:
+        content = f.read()
+
+    match = re.search(r'^version = "(.+)"$', content, re.MULTILINE)
+    if match is None:
+        raise Exception("lip.toml lacks version")
+
+    if match.group(1) != version:
+        raise Exception(
+            "lip.toml version {} does not match tag {}".format(match.group(1), version)
+        )
 
 
 if __name__ == "__main__":

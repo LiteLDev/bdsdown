@@ -1,0 +1,70 @@
+format = 4
+id = "github.com/LiteLDev/bdsdown"
+version = "1.2.1"
+
+[info]
+name = "bdsdown"
+description = "Downloader for Minecraft BDS"
+tags = ["management", "utility"]
+
+# bdsdown is a tool for setting up Bedrock Dedicated Server, so every entry is for the server
+# side. Each platform takes the release archive built for it; on Linux and macOS the binary is
+# made executable after installation.
+
+[[variants.""]]
+side = "server"
+platform = "win-x64"
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-windows-amd64.zip"]
+place = [{ src = "bdsdown.exe", dest = "bdsdown.exe" }]
+
+[[variants.""]]
+side = "server"
+platform = "win-arm64"
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-windows-arm64.zip"]
+place = [{ src = "bdsdown.exe", dest = "bdsdown.exe" }]
+
+[[variants.""]]
+side = "server"
+platform = "linux-x64"
+hooks = { post_install = ["chmod +x ./bdsdown"] }
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-linux-amd64.zip"]
+place = [{ src = "bdsdown", dest = "bdsdown" }]
+
+[[variants.""]]
+side = "server"
+platform = "linux-arm64"
+hooks = { post_install = ["chmod +x ./bdsdown"] }
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-linux-arm64.zip"]
+place = [{ src = "bdsdown", dest = "bdsdown" }]
+
+[[variants.""]]
+side = "server"
+platform = "osx-x64"
+hooks = { post_install = ["chmod +x ./bdsdown"] }
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-darwin-amd64.zip"]
+place = [{ src = "bdsdown", dest = "bdsdown" }]
+
+[[variants.""]]
+side = "server"
+platform = "osx-arm64"
+hooks = { post_install = ["chmod +x ./bdsdown"] }
+
+[[variants."".assets]]
+type = "zip"
+urls = ["https://{{id}}/releases/download/v{{version}}/bdsdown-darwin-arm64.zip"]
+place = [{ src = "bdsdown", dest = "bdsdown" }]
