@@ -36,7 +36,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Validate release stuff (tooth.json, CHANGELOG.md, etc.)
+      - name: Validate release stuff (lip.toml, CHANGELOG.md, etc.)
         run: |
           npm i -g keep-a-changelog
           python scripts/validate_release.py --tag ${{ github.event.release.tag_name }}
@@ -81,6 +81,8 @@ jobs:
         if: matrix.GOOS != 'windows'
         run: |
           tar -czvf ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz *
+          # lip.toml (format 4) only takes ZIP archives, so ship a .zip as well.
+          zip -r ../bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip *
         working-directory: artifact
 
       - name: Upload artifact to release (Windows)
@@ -96,3 +98,4 @@ jobs:
         with:
           files: |
             bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.tar.gz
+            bdsdown-${{ matrix.GOOS }}-${{ matrix.GOARCH }}.zip
